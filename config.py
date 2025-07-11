@@ -8,12 +8,22 @@ from pathlib import Path
 # # -----------------
 # """ 使用 Path 对象，能更好地处理跨平台路径问题 """
 BASE_DIR = Path('/Users/yanchen/Desktop/Projects/egg/egg_2025') # 项目的基础目录
-INPUT_FILE = BASE_DIR / 'B_egg' / 'B_egg_d20' / 'egg_d20_B30_t1_待破壳.txt' # 输入数据文件
+# INPUT_FILE = BASE_DIR/ 'Results/waveforms_Ibis/waveform_Ibis_choice/朱鹮day22_t1.txt'
+# INPUT_FILE = BASE_DIR / '/Users/yanchen/Desktop/Projects/egg/egg_2025/朱鹮_250426/day/朱鹮day25_t2.txt' 
+
+# INPUT_FILE = BASE_DIR / '第一批鸡蛋测量数据'/ 'd17_e7_t3很不错.txt'
+# INPUT_FILE = BASE_DIR / 'B_egg'/ 'B_egg_d20'/'egg_d20_B30_t1_待破壳.txt'
+# INPUT_FILE = BASE_DIR / 'time_choice'/ 'egg_d13_B20_t2.txt'
+# INPUT_FILE = BASE_DIR / 'time_choice'/ 'egg_d19_B30_t1.txt'
+INPUT_FILE = BASE_DIR / 'time_choice/egg_d20_B33_t1.txt'
+
+# INPUT_FILE = BASE_DIR / '朱鹮_250426'/ '朱鹮day20_t1.txt' 
 OUTPUT_DIR = BASE_DIR / 'Figures' # 所有输出（如图片）的保存目录
 
 """ ---- 批量处理数据版本 ---- """
 # 指向包含所有天数文件夹下的根目录
-DATA_ROOT_DIR = Path('/Users/yanchen/Desktop/Projects/egg/egg_2025/B_egg') 
+# DATA_ROOT_DIR = Path('/Users/yanchen/Desktop/Projects/egg/egg_2025/B_egg')    # B_egg数据的根目录
+DATA_ROOT_DIR = Path('/Users/yanchen/Desktop/Projects/egg/egg_2025/朱鹮_250426') # 朱鹮数据的根目录
 # 为结果创建输出目录
 RESULTS_OUTPUT_DIR = Path('/Users/yanchen/Desktop/Projects/egg_2025/Results/')
 # 为平均波形文件(.csv)创建一个专门的子文件夹
@@ -36,7 +46,7 @@ PROCESSING_PARAMS = {
 # -----------------
 FILTER_PARAMS = {
     'bandpass': {
-        'order': 4,
+        'order': 3,
         'lowcut': 0.5,   # Hz, 低截止频率
         'highcut': 45.0, # Hz, 高截止频率
     },
@@ -67,7 +77,8 @@ R_PEAK_PARAMS = {
 # -----------------
 AVERAGING_PARAMS = {
     'pre_r_ms': 100,  # R峰前的时间窗口 (毫秒)
-    'post_r_ms': 200, # R峰后的时间窗口 (毫秒)
+    'post_r_ms': 100, # R峰后的时间窗口 (毫秒)
+    'ethod': 'median', # 叠加平均方法 ('median' 或 'dtw')
 }
 
 
@@ -93,7 +104,7 @@ TIME_FREQUENCY_PARAMS = {
     },
     'plot': {
         # 'style' 选项: 'single', 'dual', 'both', 'none'
-        'style': 'dual'
+        'style': 'single', # 是否生成时频图表
     }
 }
 
@@ -110,10 +121,10 @@ PLOTTING_PARAMS = {
     'generate_plots_per_file': False, # 是否为每个文件生成图表
 
     'filtering_plot': {
-        'style': 'dual', 
+        'style': 'single', # 'single', 'dual', 'both', 'none'
     },
     'averaging_plot': {
-        'style': 'dual',
+        'style': 'single',
         # 'median' - 只绘制中位数平均波形
         # 'dtw'    - 只绘制DTW对齐平均波形
         # 'both'   - 绘制两者的对比图 (默认)

@@ -149,7 +149,7 @@ def screen_beats_by_correlation(all_beats: List[np.ndarray], threshold: float) -
     good_beats_indices = []
     # 2. 遍历每个心拍，计算其与模板的相关性
     for i, beat in enumerate(beats_array):
-        # np.corrcoef返回一个2x2的相关矩阵，我们需要的是对角线之外的值
+        # np.corrcoef返回一个2x2的相关矩阵
         correlation = np.corrcoef(beat, template_beat)[0, 1]
         
         # 3. 如果相关性高于阈值，则保留该心拍的索引

@@ -52,8 +52,7 @@ def batch_process_data():
                     time_axis_ms = np.linspace(-config.AVERAGING_PARAMS['pre_r_ms'], config.AVERAGING_PARAMS['post_r_ms'], len(averaged_waveform))
                     waveform_data_to_save = np.vstack((time_axis_ms, averaged_waveform)).T
                     
-                    # --- 【核心修改点】 ---
-                    # 文件名现在会反映出所用的平均方法
+                   
                     avg_method_name = result_dict['avg_method_used']
                     waveform_filename = f"{filepath.stem}_avg_{avg_method_name}.csv"
                     waveform_output_path = config.WAVEFORM_OUTPUT_DIR / waveform_filename

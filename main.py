@@ -9,6 +9,7 @@ import config
 import mcg_processing as mcg
 import mcg_plotting as plot
 
+
 def main():
     """主分析流程函数"""
     print("--- 开始心磁信号分析流程 ---")
@@ -68,10 +69,9 @@ def main():
         wavelet_args = {
             'wavelet': config.FILTER_PARAMS['wavelet']['wavelet'],
             'level': config.FILTER_PARAMS['wavelet']['level'],
-            # 【新增】确保新参数被传递
             'denoise_levels': config.FILTER_PARAMS['wavelet']['denoise_levels']
         }
-        # 使用这个干净的字典进行参数传递
+        # 使用这个字典进行参数传递
         bx_filtered = mcg.apply_wavelet_denoise(bx_filtered_bandpass_notch, **wavelet_args)
         by_filtered = mcg.apply_wavelet_denoise(by_filtered_bandpass_notch, **wavelet_args)
     # 最终平滑
@@ -138,11 +138,11 @@ def main():
         print("生成单通道滤波对比图...")
         plot.plot_single_channel_filtered(
         time_s, bx_raw, bx_filtered, integer_peaks_bx, f'{base_filename} - Bx',
-        config.OUTPUT_DIR / f"{base_filename}_Bx_filtered.png"
+        config.OUTPUT_DIR / f"{base_filename}_Bx_filtered.jpg"
         )
         plot.plot_single_channel_filtered(
         time_s, by_raw, by_filtered, integer_peaks_by, f'{base_filename} - By',
-        config.OUTPUT_DIR / f"{base_filename}_By_filtered.png"
+        config.OUTPUT_DIR / f"{base_filename}_By_filtered.jpg"
         )
 
     if plot_style_filter in ['dual', 'both']:
@@ -162,13 +162,15 @@ def main():
     
     if plot_style_avg in ['single', 'both']:
         print("生成单通道叠加平均对比图...")
+        display_method_for_plot = config.PLOTTING_PARAMS['averaging_plot']['display_method']
         plot.plot_single_channel_averaging(
             median_beat_bx, dtw_beat_bx, avg_time_ms, 'Bx Channel', base_filename,
-            config.OUTPUT_DIR / f"{base_filename}_Bx_avg_comparison.png"
+            config.OUTPUT_DIR / f"{base_filename}_Bx_avg_comparison_{display_method_for_plot}.jpg",
+            display_method=display_method_for_plot
         )
         plot.plot_single_channel_averaging(
             median_beat_by, dtw_beat_by, avg_time_ms, 'By Channel', base_filename,
-            config.OUTPUT_DIR / f"{base_filename}_By_avg_comparison.png"
+            config.OUTPUT_DIR / f"{base_filename}_By_avg_comparison_{display_method_for_plot}.jpg"
         )
     
     if plot_style_avg in ['dual', 'both']:
@@ -191,11 +193,11 @@ def main():
         if plot_style_tf in ['single', 'both']:
             plot.plot_single_channel_tf(
                 t_axis, results['bx'][0], results['bx'][1], method.upper(), 'Bx Channel', base_filename,
-                config.OUTPUT_DIR / f"{base_filename}_Bx_tf_{method}.png"
+                config.OUTPUT_DIR / f"{base_filename}_Bx_tf_{method}.jpg"
             )
             plot.plot_single_channel_tf(
                 t_axis, results['by'][0], results['by'][1], method.upper(), 'By Channel', base_filename,
-                config.OUTPUT_DIR / f"{base_filename}_By_tf_{method}.png"
+                config.OUTPUT_DIR / f"{base_filename}_By_tf_{method}.jpg"
             )
         
         if plot_style_tf in ['dual', 'both']:
