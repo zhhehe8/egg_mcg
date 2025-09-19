@@ -7,9 +7,22 @@ from pathlib import Path
 
 # 设置字体显示
 try:
-    plt.rcParams['font.sans-serif'] = ['Arial']   
-except:
-    print("警告: 未找到指定字体")
+    plt.rcParams['font.family'] = 'Arial'
+    plt.rcParams['font.sans-serif'] = ['Arial', 'DejaVu Sans', 'Liberation Sans', 'Bitstream Vera Sans', 'sans-serif']
+    plt.rcParams['axes.unicode_minus'] = False  # 正常显示负号
+    # 设置标题字体加粗
+    plt.rcParams['axes.titleweight'] = 'bold'  # 子图标题加粗
+    plt.rcParams['figure.titleweight'] = 'bold'  # 主标题加粗
+    # 设置坐标轴标签字体加粗
+    plt.rcParams['axes.labelweight'] = 'bold'  # 坐标轴标签加粗
+    print("字体设置成功: Arial (标题和坐标轴标签已设置为加粗)")
+except Exception as e:
+    print(f"警告: 字体设置失败: {e}")
+    # 备用字体设置
+    plt.rcParams['font.sans-serif'] = ['DejaVu Sans', 'Liberation Sans', 'Bitstream Vera Sans', 'sans-serif']
+    plt.rcParams['axes.titleweight'] = 'bold'
+    plt.rcParams['figure.titleweight'] = 'bold'
+    plt.rcParams['axes.labelweight'] = 'bold'
 
 def plot_single_channel_filtered(time, raw_signal, filtered_signal, r_peaks, channel_name, output_path):
     """ 为单个通道绘制 2x1 的滤波前后对比图。"""
@@ -17,8 +30,8 @@ def plot_single_channel_filtered(time, raw_signal, filtered_signal, r_peaks, cha
     # fig.suptitle(f'{channel_name} 信号处理前后对比', fontsize=16)
     # RAW DATA
     axs[0].plot(time, raw_signal, 'gray', alpha=0.9, label='Raw Signal')
-    axs[0].set_title('Raw Signal', fontsize=16)
-    axs[0].set_ylabel('Amplitude (pT)', fontsize=14)
+    axs[0].set_title('Raw Signal', fontsize=16, fontweight='bold')
+    axs[0].set_ylabel('Amplitude (pT)', fontsize=14, fontweight='bold')
     axs[0].grid(True)
     axs[0].legend()
     axs[0].tick_params(axis='y', labelsize=12)
@@ -27,16 +40,16 @@ def plot_single_channel_filtered(time, raw_signal, filtered_signal, r_peaks, cha
     axs[1].plot(time, filtered_signal, 'blue' if 'Bx' in channel_name else 'green', label='Filtered Signal')
     if len(r_peaks) > 0:
         axs[1].plot(time[r_peaks], filtered_signal[r_peaks], 'rX', markersize=10, label='R Peaks')
-    axs[1].set_title('Filtered Signal', fontsize=16)
-    axs[1].set_xlabel('Time (s)', fontsize=14)
-    axs[1].set_ylabel('Amplitude (pT)', fontsize=14)
+    axs[1].set_title('Filtered Signal', fontsize=16, fontweight='bold')
+    axs[1].set_xlabel('Time (s)', fontsize=14, fontweight='bold')
+    axs[1].set_ylabel('Amplitude (pT)', fontsize=14, fontweight='bold')
     axs[1].grid(True)
     axs[1].legend()
     axs[1].tick_params(axis='both', labelsize=14)
     axs[1].set_xlim(3, 12)  # 设置x轴范围
     axs[1].set_ylim(0, 8)  # 设置y轴范围
     plt.tight_layout(rect=[0, 0, 1, 0.96])
-    plt.savefig(output_path)
+    plt.savefig(output_path, dpi=300)
     plt.show()
 
 def plot_single_channel_averaging(
@@ -51,7 +64,7 @@ def plot_single_channel_averaging(
 
     plt.figure(figsize=(5, 4))
     # plt.title(f'{base_filename} - {channel_name}\n{title_map.get(display_method, "叠加平均波形")}', fontsize=16)
-    plt.title('Averaged Waveforms on the 20 day', fontsize=16)
+    plt.title('Averaged Waveforms on the 20 day', fontsize=16, fontweight='bold')
 
     offset = 0.2   # 平均波形y轴的偏移量
 
@@ -64,8 +77,8 @@ def plot_single_channel_averaging(
         label = 'DTW对齐平均' if display_method == 'both' else 'DTW对齐平均波形'
         plt.plot(time_axis_ms, dtw_beat + offset, color=('blue' if 'Bx' in channel_name else 'green'), lw=2, label=label)
 
-    plt.xlabel('Time relative to R peak (ms)', fontsize=14)
-    plt.ylabel('Amplitude (pT)', fontsize=14)
+    plt.xlabel('Time relative to R peak (ms)', fontsize=14, fontweight='bold')
+    plt.ylabel('Amplitude (pT)', fontsize=14, fontweight='bold')
     plt.ylim(0, 1.5)
     plt.grid(True, linestyle='--')
     plt.axvline(x=0, color='red', linestyle='-.', alpha=0.8)
@@ -73,7 +86,7 @@ def plot_single_channel_averaging(
     plt.xticks(fontsize=13)
     plt.yticks(fontsize=13)
     plt.tight_layout()
-    plt.savefig(output_path)
+    plt.savefig(output_path, dpi=300)
     plt.show()
 
 # --- 双通道整合绘图函数 ---
@@ -103,7 +116,7 @@ def plot_dual_channel_filtered(time, bx_raw, bx_filtered, r_peaks_bx, by_raw, by
     axs[1, 1].grid(True); axs[1, 1].legend()
     plt.tight_layout(rect=[0, 0, 1, 0.96])
     output_path = output_dir / f"{base_filename}_filtering_comparison_dual.png"
-    plt.savefig(output_path)
+    plt.savefig(output_path, dpi=300)
     print(f"双通道滤波对比图已保存至: {output_path}")
     plt.show()
 
@@ -138,7 +151,7 @@ def plot_dual_channel_averaging(time_axis_ms, median_beat_bx, dtw_beat_bx, media
     
     output_filename = f"{base_filename}_averaging_{display_method}.png"
     output_path = output_dir / output_filename
-    plt.savefig(output_path)
+    plt.savefig(output_path, dpi=300)
     print(f"叠加平均图 ({display_method} 模式) 已保存至: {output_path}")
     plt.show()
 # -----------------------
@@ -157,13 +170,13 @@ def plot_single_channel_tf(
     else: # CWT
         plt.pcolormesh(t_axis, f_axis, Z_data, shading='gouraud', cmap='bwr')
 
-    plt.title(f'{base_filename} - {channel_name}\n时频分析 ({method_name})', fontsize=16)
-    plt.xlabel('时间 (秒)')
-    plt.ylabel('频率 (Hz)')
+    plt.title(f'{base_filename} - {channel_name}\n时频分析 ({method_name})', fontsize=16, fontweight='bold')
+    plt.xlabel('时间 (秒)', fontweight='bold')
+    plt.ylabel('频率 (Hz)', fontweight='bold')
     plt.ylim(0, 10) 
     plt.colorbar(label='幅度 (对数尺度)')
     plt.tight_layout()
-    plt.savefig(output_path)
+    plt.savefig(output_path, dpi=300)
     plt.show()
 
 def plot_dual_channel_tf(
@@ -183,7 +196,7 @@ def plot_dual_channel_tf(
         f_bx, Z_bx = results['bx']
         im1 = axs[0].pcolormesh(time_axis, f_bx, Z_bx, shading='gouraud', cmap='bwr')
         axs[0].set_title('Bx 通道')
-        axs[0].set_ylabel('频率 (Hz)')
+        axs[0].set_ylabel('频率 (Hz)', fontweight='bold')
         axs[0].set_ylim(0, 10)
         
         fig.colorbar(im1, ax=axs[0], label='幅度')
@@ -192,13 +205,13 @@ def plot_dual_channel_tf(
         f_by, Z_by = results['by']
         im2 = axs[1].pcolormesh(time_axis, f_by, Z_by, shading='gouraud', cmap='bwr')
         axs[1].set_title('By 通道')
-        axs[1].set_xlabel('时间 (秒)')
-        axs[1].set_ylabel('频率 (Hz)')
+        axs[1].set_xlabel('时间 (秒)', fontweight='bold')
+        axs[1].set_ylabel('频率 (Hz)', fontweight='bold')
         axs[1].set_ylim(0, 10)
         fig.colorbar(im2, ax=axs[1], label='幅度')
 
         plt.tight_layout(rect=[0, 0, 1, 0.96])
         output_path = output_dir / f"{base_filename}_tf_comparison_{method.lower()}.png"
-        plt.savefig(output_path)
+        plt.savefig(output_path, dpi=300)
         print(f"双通道 {method.upper()} 时频图已保存至: {output_path}")
         plt.show()

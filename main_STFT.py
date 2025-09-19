@@ -21,11 +21,11 @@ def plot_single_channel_stft(signal_data, fs, channel_name, base_filename, outpu
     # 2. 创建独立的图表
     fig, ax = plt.subplots(figsize=(4, 3))
 
-    # 3. 使用 pcolormesh 绘制时频图，颜色主题为 'bwr'
-    im = ax.pcolormesh(t_seg, f, np.abs(Zxx), shading='gouraud', cmap='bwr')
+    # 3. 使用 pcolormesh 绘制时频图，颜色主题为 'viridis'
+    im = ax.pcolormesh(t_seg, f, np.abs(Zxx), shading='gouraud', cmap='viridis')
 
     # 4. 设置图表标题和坐标轴标签
-    ax.set_title(f'STFT of day0', fontsize=14) # 更新标题以包含通道信息
+    ax.set_title(f'STFT of day22', fontsize=14) # 更新标题以包含通道信息
     ax.set_ylabel('Frequency (Hz)', fontsize=12)
     ax.set_xlabel('Time (s)', fontsize=12)
     ax.tick_params(axis='both', labelsize=10)
@@ -59,8 +59,8 @@ def plot_single_channel_stft(signal_data, fs, channel_name, base_filename, outpu
 if __name__ == "__main__":
     # 设置要处理的文件路径
     # file_path_str = '/Users/yanchen/Desktop/Projects/egg/egg_2025/Results/STFT_朱鹮/STFT of 朱鹮 choice/朱鹮day25_2_t2.txt'
-    # file_path_str = '/Users/yanchen/Desktop/Projects/egg/egg_2025/Results/STFT_朱鹮/STFT of 朱鹮 choice/朱鹮day22_t3.txt'
-    file_path_str = '/Users/yanchen/Desktop/Projects/egg/egg_2025/Results/STFT_朱鹮/STFT of 朱鹮 choice/朱鹮未受精蛋1_t2.txt'
+    file_path_str = '/Users/yanchen/Desktop/Projects/egg/egg_2025/Results/STFT_朱鹮/STFT of 朱鹮 choice/朱鹮day22_t3.txt'
+    # file_path_str = '/Users/yanchen/Desktop/Projects/egg/egg_2025/Results/STFT_朱鹮/STFT of 朱鹮 choice/朱鹮未受精蛋1_t2.txt'
     fs = 1000  # 采样率
 
     # --- 【修改】定义并创建输出目录 ---

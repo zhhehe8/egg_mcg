@@ -14,8 +14,8 @@ BASE_DIR = Path('/Users/yanchen/Desktop/Projects/egg/egg_2025') # 项目的基�
 # INPUT_FILE = BASE_DIR / '第一批鸡蛋测量数据'/ 'd17_e7_t3很不错.txt'
 # INPUT_FILE = BASE_DIR / 'B_egg'/ 'B_egg_d20'/'egg_d20_B30_t1_待破壳.txt'
 # INPUT_FILE = BASE_DIR / 'time_choice'/ 'egg_d13_B20_t2.txt'
-# INPUT_FILE = BASE_DIR / 'time_choice'/ 'egg_d19_B30_t1.txt'
-INPUT_FILE = BASE_DIR / 'time_choice/egg_d20_B33_t1.txt'
+INPUT_FILE = BASE_DIR / 'time_choice'/ 'egg_d19_B30_t1.txt'
+# INPUT_FILE = BASE_DIR / 'time_choice/egg_d20_B33_t1.txt'
 
 # INPUT_FILE = BASE_DIR / '朱鹮_250426'/ '朱鹮day20_t1.txt' 
 OUTPUT_DIR = BASE_DIR / 'Figures' # 所有输出（如图片）的保存目录
@@ -59,7 +59,7 @@ FILTER_PARAMS = {
         'wavelet': 'sym8',
         'level': 7,
         # 新增的小波去噪参数（肌电信号）
-        'denoise_levels': 3       # 只对前3层高频细节进行去噪
+        'denoise_levels': 3      # 只对前3层高频细节进行去噪
     }
 }
 

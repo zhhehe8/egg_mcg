@@ -176,7 +176,7 @@ if __name__ == "__main__":
        base_dir / 'egg_d15_B28_t1.txt',
        base_dir / 'egg_d16_B25_t2.txt',
        base_dir / 'egg_d17_B25_t2.txt',
-       base_dir / 'egg_d20_B33_t1.txt',
+       base_dir / 'egg_d18_B33_t1.txt',
        base_dir / 'egg_d19_B34_t2.txt',
        base_dir / 'egg_d20_B30_t1_待破壳.txt',
     ]
